@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_learn_client/auth/bloc/blocs.dart';
 import 'package:skill_learn_client/auth/models/user.dart';
+import 'package:skill_learn_client/auth/screens/auth_screens.dart';
 import 'package:skill_learn_client/auth/screens/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,15 +11,18 @@ import 'components/constants.dart';
 
 class Login extends StatefulWidget {
   String? errorMessage;
-  Login(this.errorMessage);
+  bool signUpSuccess;
+  Login({this.errorMessage, this.signUpSuccess = false});
   @override
-  _LoginState createState() => _LoginState(this.errorMessage);
+  _LoginState createState() =>
+      _LoginState(this.errorMessage, this.signUpSuccess);
 }
 
 class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   String? errorMessage;
-  _LoginState(this.errorMessage);
+  bool signUpSuccess;
+  _LoginState(this.errorMessage, this.signUpSuccess);
   final Map<String, dynamic> _user = {};
   var password;
   @override
@@ -40,13 +44,14 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 SizedBox(height: size.height * 0.03),
-                SvgPicture.asset(
-                  "assets/signin_solid.svg",
-                  height: size.height * 0.15,
-                ),
                 Text(
                   "${this.errorMessage != null ? this.errorMessage : ''}",
                   style: TextStyle(color: Colors.red.shade300, fontSize: 18.0),
+                ),
+                Text(
+                  "${this.signUpSuccess ? 'Sign up successful. Enter your login info' : ''}",
+                  style:
+                      TextStyle(color: Colors.green.shade300, fontSize: 18.0),
                 ),
                 SizedBox(height: size.height * 0.03),
                 TextFieldContainer(
@@ -56,7 +61,7 @@ class _LoginState extends State<Login> {
                         Icons.person,
                         color: kPrimaryColor,
                       ),
-                      hintText: "username",
+                      hintText: "Username",
                       border: InputBorder.none,
                     ),
                     validator: (value) {
@@ -93,17 +98,16 @@ class _LoginState extends State<Login> {
                           context);
 
                       BlocProvider.of<AuthenticationBloc>(context).add(event);
-
-                      // Navigator.pushNamedAndRemoveUntil(context,
-                      //     RouteGenerator.loginPage, (route) => false);
                     }
                   },
                 ),
                 SizedBox(height: size.height * 0.03),
                 AlreadyHaveAnAccountCheck(
                   press: () {
-                    Navigator.restorablePushNamedAndRemoveUntil(
-                        context, RouteGenerator.signupPage, (route) => false);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => Signup(null)),
+                        (route) => false);
                   },
                 ),
               ],

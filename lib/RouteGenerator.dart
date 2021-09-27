@@ -18,7 +18,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Signup(null));
         break;
       case loginPage:
-        return MaterialPageRoute(builder: (_) => Login(null));
+        return MaterialPageRoute(
+            builder: (_) => Login(
+                  errorMessage: null,
+                ));
         break;
 
       default:

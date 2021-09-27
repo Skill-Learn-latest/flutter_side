@@ -21,8 +21,13 @@ class SignupSuccess extends AuthenticationState {
   late BuildContext currentContext;
   SignupSuccess(BuildContext context) {
     this.currentContext = context;
-    Navigator.pushNamedAndRemoveUntil(
-        this.currentContext, RouteGenerator.loginPage, (route) => false);
+    Navigator.pushAndRemoveUntil(
+        this.currentContext,
+        MaterialPageRoute(
+            builder: (_) => Login(
+                  signUpSuccess: true,
+                )),
+        (route) => false);
   }
 }
 
@@ -59,7 +64,8 @@ class LoginFailure extends AuthenticationState {
     Navigator.pushAndRemoveUntil(
         this.currentContext,
         MaterialPageRoute(
-            builder: (_) => Login("Login failed. Please try again!")),
+            builder: (_) =>
+                Login(errorMessage: "Login failed. Please try again!")),
         (route) => false);
   }
 }

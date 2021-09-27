@@ -1,11 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skill_learn_client/auth/bloc/blocs.dart';
 import 'package:skill_learn_client/auth/models/user.dart';
+import 'package:skill_learn_client/auth/screens/auth_screens.dart';
 import 'package:skill_learn_client/auth/screens/components/components.dart';
 import 'components/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:skill_learn_client/RouteGenerator.dart';
 
 class Signup extends StatefulWidget {
   String? errorMessage;
@@ -43,11 +42,6 @@ class _SignupState extends State<Signup> {
                     ),
                   ),
                   SizedBox(height: size.height * 0.03),
-                  SvgPicture.asset(
-                    "assets/signup_solid.svg",
-                    height: size.height * 0.15,
-                  ),
-                  SizedBox(height: size.height * 0.03),
                   Text(
                     "${this.errorMessage != null ? this.errorMessage : ''}",
                     style:
@@ -60,7 +54,7 @@ class _SignupState extends State<Signup> {
                           Icons.person,
                           color: kPrimaryColor,
                         ),
-                        hintText: "username",
+                        hintText: "Username",
                         border: InputBorder.none,
                       ),
                       validator: (value) {
@@ -84,7 +78,7 @@ class _SignupState extends State<Signup> {
                           Icons.email,
                           color: kPrimaryColor,
                         ),
-                        hintText: "email",
+                        hintText: "Email",
                         border: InputBorder.none,
                       ),
                       validator: (value) {
@@ -101,6 +95,54 @@ class _SignupState extends State<Signup> {
                       },
                     ),
                   ),
+                  TextFieldContainer(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.person,
+                          color: kPrimaryColor,
+                        ),
+                        hintText: "Firstname",
+                        border: InputBorder.none,
+                      ),
+                      validator: (value) {
+                        if (value != null && value.isEmpty) {
+                          return 'Please enter firstname!';
+                        }
+                        return null;
+                      },
+                      initialValue: '',
+                      onSaved: (value) {
+                        setState(() {
+                          this._user["firstname"] = value;
+                        });
+                      },
+                    ),
+                  ),
+                  TextFieldContainer(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.person,
+                          color: kPrimaryColor,
+                        ),
+                        hintText: "Lastname",
+                        border: InputBorder.none,
+                      ),
+                      validator: (value) {
+                        if (value != null && value.isEmpty) {
+                          return 'Please enter lastname!';
+                        }
+                        return null;
+                      },
+                      initialValue: '',
+                      onSaved: (value) {
+                        setState(() {
+                          this._user["lastname"] = value;
+                        });
+                      },
+                    ),
+                  ),
                   RoundedPasswordField(
                     onChanged: (value) {
                       password = value;
@@ -110,14 +152,17 @@ class _SignupState extends State<Signup> {
                     text: "SIGNUP",
                     press: () {
                       final form = _formKey.currentState;
-                      if (form != null && form.validate()) {
+                      if (form != null &&
+                          form.validate() &&
+                          password.toString().length >= 8) {
                         form.save();
-                        print(this._user);
-                        print(this.password);
+
                         final UserEvent event = UserSignUp(
                             User(
                               username: this._user["username"],
                               email: this._user["email"],
+                              firstName: this._user["firstname"],
+                              lastName: this._user['lastname'],
                               password: this.password,
                             ),
                             context);
@@ -126,6 +171,13 @@ class _SignupState extends State<Signup> {
 
                         // Navigator.pushNamedAndRemoveUntil(context,
                         //     RouteGenerator.loginPage, (route) => false);
+                      } else {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    Signup("Choose a complex password")),
+                            (route) => false);
                       }
                     },
                   ),
@@ -133,8 +185,13 @@ class _SignupState extends State<Signup> {
                   AlreadyHaveAnAccountCheck(
                     login: false,
                     press: () {
-                      Navigator.restorablePushNamedAndRemoveUntil(
-                          context, RouteGenerator.loginPage, (route) => false);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => Login(
+                                    errorMessage: null,
+                                  )),
+                          (route) => false);
                     },
                   )
                 ]),

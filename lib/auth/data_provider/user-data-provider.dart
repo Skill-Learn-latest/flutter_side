@@ -17,6 +17,8 @@ class UserDataProvider {
               "username": user.username,
               "email": user.email,
               "password": user.password,
+              "firstname": user.firstName,
+              "lastname": user.lastName,
               "roles": user.roles
             }));
 

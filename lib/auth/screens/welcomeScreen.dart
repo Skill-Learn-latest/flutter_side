@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_learn_client/auth/bloc/blocs.dart';
+import 'package:skill_learn_client/auth/screens/auth_screens.dart';
 import 'package:skill_learn_client/auth/screens/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:skill_learn_client/RouteGenerator.dart';
@@ -50,7 +51,10 @@ class WelcomeScreen extends StatelessWidget {
                   } else {
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (_) => Login(null)),
+                        MaterialPageRoute(
+                            builder: (_) => Login(
+                                  errorMessage: null,
+                                )),
                         (route) => false);
                   }
                 },
@@ -59,9 +63,12 @@ class WelcomeScreen extends StatelessWidget {
               RoundedButton(
                 text: "SIGN UP",
                 color: Colors.blue,
-                textColor: Colors.black,
+                textColor: Colors.white,
                 press: () {
-                  Navigator.of(context).pushNamed(RouteGenerator.signupPage);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => Signup(null)),
+                      (route) => false);
                 },
               ),
             ],
