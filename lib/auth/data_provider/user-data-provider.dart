@@ -41,6 +41,7 @@ class UserDataProvider {
       var parse = jsonDecode(response.body);
 
       await prefs.setString('accessToken', parse["accessToken"]);
+      await prefs.setString('id', parse["id"]);
       return User.fromJson(parse);
     } else {
       return User();

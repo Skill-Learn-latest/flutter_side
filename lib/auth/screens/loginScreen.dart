@@ -4,8 +4,6 @@ import 'package:skill_learn_client/auth/models/user.dart';
 import 'package:skill_learn_client/auth/screens/auth_screens.dart';
 import 'package:skill_learn_client/auth/screens/components/components.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:skill_learn_client/RouteGenerator.dart';
 
 import 'components/constants.dart';
 

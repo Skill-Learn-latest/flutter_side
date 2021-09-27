@@ -7,6 +7,8 @@ import 'package:skill_learn_client/auth/screens/loginScreen.dart';
 import 'package:skill_learn_client/auth/screens/registerScreen.dart';
 import 'package:skill_learn_client/content/data_provider/article-data-provider.dart';
 import 'package:skill_learn_client/content/repository/article-repository.dart';
+import 'package:skill_learn_client/user/data_provider/profile_data_provider.dart';
+import 'package:skill_learn_client/user/repository/profile-repository.dart';
 
 abstract class AuthenticationState extends Equatable {
   const AuthenticationState();
@@ -52,6 +54,7 @@ class LoginSuccess extends AuthenticationState {
         MaterialPageRoute(
             builder: (_) => LandingScreen(
                   articleRepository: ArticleRepository(ArticleDataProvider()),
+                  profileRepository: ProfileRepository(ProfileDataProvider()),
                 )),
         (route) => false);
   }

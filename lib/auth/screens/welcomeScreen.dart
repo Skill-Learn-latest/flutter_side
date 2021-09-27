@@ -6,10 +6,12 @@ import 'package:skill_learn_client/auth/screens/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:skill_learn_client/RouteGenerator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:skill_learn_client/auth/screens/landingScreen.dart';
+import 'package:skill_learn_client/content/screens/landingScreen.dart';
 import 'package:skill_learn_client/auth/screens/loginScreen.dart';
 import 'package:skill_learn_client/content/data_provider/article-data-provider.dart';
 import 'package:skill_learn_client/content/repository/article-repository.dart';
+import 'package:skill_learn_client/user/data_provider/profile_data_provider.dart';
+import 'package:skill_learn_client/user/repository/profile-repository.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -45,8 +47,11 @@ class WelcomeScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => LandingScreen(
-                                articleRepository:
-                                    ArticleRepository(ArticleDataProvider()))),
+                                  articleRepository:
+                                      ArticleRepository(ArticleDataProvider()),
+                                  profileRepository:
+                                      ProfileRepository(ProfileDataProvider()),
+                                )),
                         (route) => false);
                   } else {
                     Navigator.pushAndRemoveUntil(

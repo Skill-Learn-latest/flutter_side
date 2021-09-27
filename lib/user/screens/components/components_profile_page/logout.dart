@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_learn_client/auth/screens/auth_screens.dart';
 
-import '../../../../RouteGenerator.dart';
-
 class LogOut extends StatelessWidget {
   const LogOut({
     Key? key,
@@ -17,6 +15,7 @@ class LogOut extends StatelessWidget {
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             await prefs.remove("accessToken");
+            await prefs.remove("id");
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (_) => WelcomeScreen()),
